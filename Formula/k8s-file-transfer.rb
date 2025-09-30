@@ -18,7 +18,7 @@ class K8sFileTransfer < Formula
 
   def install
     prefix.install "Kubernetes File Transfer.app"
-    
+
     # Create a symlink in bin for command line access
     (bin/"k8s-file-transfer").write <<~EOS
       #!/bin/bash
