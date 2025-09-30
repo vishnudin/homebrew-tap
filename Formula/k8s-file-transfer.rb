@@ -6,10 +6,10 @@ class K8sFileTransfer < Formula
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.0/Kubernetes%20File%20Transfer-1.0.0-mac.zip"
+      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.0/Kubernetes.File.Transfer-1.0.0-mac.zip"
       sha256 "247410f2bd8144c4f041678ff160506b2be5fd14ffbd4500e885337151ebd9c5"
     else
-      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.0/Kubernetes%20File%20Transfer-1.0.0-arm64-mac.zip"
+      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.0/Kubernetes.File.Transfer-1.0.0-arm64-mac.zip"
       sha256 "82193203c9252918f1cf26af05b390f1af35e5c66bb0e34b97f21b973e0078cc"
     end
   end
