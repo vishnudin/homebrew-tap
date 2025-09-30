@@ -15,7 +15,6 @@ class K8sFileTransfer < Formula
   end
 
   depends_on "kubectl"
-  depends_on macos: ">= :catalina"
 
   def install
     prefix.install "Kubernetes File Transfer.app"
