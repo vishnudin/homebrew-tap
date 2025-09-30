@@ -17,10 +17,14 @@ class K8sFileTransfer < Formula
   depends_on "kubectl"
 
   def install
-    # For macOS apps, we use the app directive instead of manual installation
+    prefix.install "Kubernetes File Transfer.app"
+    
+    # Create a symlink in bin for command line access
+    (bin/"k8s-file-transfer").write <<~EOS
+      #!/bin/bash
+      exec "#{prefix}/Kubernetes File Transfer.app/Contents/MacOS/Kubernetes File Transfer" "$@"
+    EOS
   end
-
-  app "Kubernetes File Transfer.app"
 
   def caveats
     <<~EOS
@@ -28,14 +32,21 @@ class K8sFileTransfer < Formula
       1. kubectl installed and configured with access to your Kubernetes clusters
       2. Proper permissions to list pods and execute kubectl cp commands
 
-      The application has been installed to your Applications folder.
-      Launch it from Launchpad or Applications folder.
+      The application has been installed to:
+        #{prefix}/Kubernetes File Transfer.app
+
+      You can launch it with:
+        k8s-file-transfer
+
+      Or open it directly:
+        open "#{prefix}/Kubernetes File Transfer.app"
 
       For more information, visit: https://github.com/vishnudin/k8s-file-transfer
     EOS
   end
 
   test do
-    assert_predicate "/Applications/Kubernetes File Transfer.app", :exist?
+    assert_predicate prefix/"Kubernetes File Transfer.app", :exist?
+    assert_predicate bin/"k8s-file-transfer", :exist?
   end
 end
