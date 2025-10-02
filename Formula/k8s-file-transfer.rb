@@ -1,29 +1,33 @@
 class K8sFileTransfer < Formula
   desc "GUI application for transferring files between local machine and Kubernetes pods"
   homepage "https://github.com/vishnudin/k8s-file-transfer"
-  version "1.0.1"
+  version "1.0.2"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.1/Kubernetes.File.Transfer-1.0.1-mac.zip"
-      sha256 "5c46482ca64c6e25ae9cbbf5ac985c92db01a4c219bd633b9bc7fd9fa39db5ca"
+      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.2/Kubernetes.File.Transfer-1.0.2-mac.zip"
+      sha256 "0c4c07df3403daeb317add40dc41e28c8fc546ca2d09ec887d07831bed3eaf94"
     else
-      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.1/Kubernetes.File.Transfer-1.0.1-arm64-mac.zip"
-      sha256 "14342a44e95d7612995f32f03cc4b71bc6278566cc506e1e9f39c481cd3bba31"
+      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.2/Kubernetes.File.Transfer-1.0.2-arm64-mac.zip"
+      sha256 "26fbf333a6f91b338a8410a231a1f20f61890fa8cf6878602229878898c3707c"
     end
   end
 
   depends_on "kubectl"
 
+  # Skip automatic linkage fixing for Electron apps
+  def self.needs_linkage_fixing?
+    false
+  end
+
   def install
-    # Install all contents to prefix (Homebrew extracts into the .app directory)
-    prefix.install Dir["*"]
-    
-    # Create a command line launcher script
+    prefix.install "Kubernetes File Transfer.app"
+
+    # Create a symlink in bin for command line access
     (bin/"k8s-file-transfer").write <<~EOS
       #!/bin/bash
-      exec "#{prefix}/Contents/MacOS/Kubernetes File Transfer" "$@"
+      exec "#{prefix}/Kubernetes File Transfer.app/Contents/MacOS/Kubernetes File Transfer" "$@"
     EOS
   end
 
@@ -34,21 +38,20 @@ class K8sFileTransfer < Formula
       2. Proper permissions to list pods and execute kubectl cp commands
 
       The application has been installed to:
-        #{prefix}
+        #{prefix}/Kubernetes File Transfer.app
 
       You can launch it with:
         k8s-file-transfer
 
       Or open it directly:
-        open "#{prefix}"
+        open "#{prefix}/Kubernetes File Transfer.app"
 
       For more information, visit: https://github.com/vishnudin/k8s-file-transfer
     EOS
   end
 
   test do
-    assert_predicate prefix/"Contents", :exist?
-    assert_predicate prefix/"Contents/MacOS/Kubernetes File Transfer", :exist?
+    assert_predicate prefix/"Kubernetes File Transfer.app", :exist?
     assert_predicate bin/"k8s-file-transfer", :exist?
   end
 end
