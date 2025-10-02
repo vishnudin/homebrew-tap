@@ -1,16 +1,16 @@
 class K8sFileTransfer < Formula
   desc "GUI application for transferring files between local machine and Kubernetes pods"
   homepage "https://github.com/vishnudin/k8s-file-transfer"
-  version "1.0.0"
+  version "1.0.1"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.0/Kubernetes.File.Transfer-1.0.0-mac.zip"
-      sha256 "247410f2bd8144c4f041678ff160506b2be5fd14ffbd4500e885337151ebd9c5"
+      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.1/Kubernetes.File.Transfer-1.0.1-mac.zip"
+      sha256 "5c46482ca64c6e25ae9cbbf5ac985c92db01a4c219bd633b9bc7fd9fa39db5ca"
     else
-      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.0/Kubernetes.File.Transfer-1.0.0-arm64-mac.zip"
-      sha256 "82193203c9252918f1cf26af05b390f1af35e5c66bb0e34b97f21b973e0078cc"
+      url "https://github.com/vishnudin/k8s-file-transfer/releases/download/v1.0.1/Kubernetes.File.Transfer-1.0.1-arm64-mac.zip"
+      sha256 "14342a44e95d7612995f32f03cc4b71bc6278566cc506e1e9f39c481cd3bba31"
     end
   end
 
