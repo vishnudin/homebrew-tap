@@ -16,18 +16,14 @@ class K8sFileTransfer < Formula
 
   depends_on "kubectl"
 
-  # Skip automatic linkage fixing for Electron apps
-  def self.needs_linkage_fixing?
-    false
-  end
-
   def install
-    prefix.install "Kubernetes File Transfer.app"
-
-    # Create a symlink in bin for command line access
+    # Install all contents to prefix (Homebrew extracts into the .app directory)
+    prefix.install Dir["*"]
+    
+    # Create a command line launcher script
     (bin/"k8s-file-transfer").write <<~EOS
       #!/bin/bash
-      exec "#{prefix}/Kubernetes File Transfer.app/Contents/MacOS/Kubernetes File Transfer" "$@"
+      exec "#{prefix}/Contents/MacOS/Kubernetes File Transfer" "$@"
     EOS
   end
 
@@ -38,20 +34,24 @@ class K8sFileTransfer < Formula
       2. Proper permissions to list pods and execute kubectl cp commands
 
       The application has been installed to:
-        #{prefix}/Kubernetes File Transfer.app
+        #{prefix}
 
       You can launch it with:
         k8s-file-transfer
 
       Or open it directly:
-        open "#{prefix}/Kubernetes File Transfer.app"
+        open "#{prefix}"
 
       For more information, visit: https://github.com/vishnudin/k8s-file-transfer
+
+      Note: You may see harmless dylib linkage warnings during installation.
+      These do not affect the functionality of the application.
     EOS
   end
 
   test do
-    assert_predicate prefix/"Kubernetes File Transfer.app", :exist?
+    assert_predicate prefix/"Contents", :exist?
+    assert_predicate prefix/"Contents/MacOS/Kubernetes File Transfer", :exist?
     assert_predicate bin/"k8s-file-transfer", :exist?
   end
 end
