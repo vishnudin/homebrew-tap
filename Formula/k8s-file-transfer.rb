@@ -17,18 +17,13 @@ class K8sFileTransfer < Formula
   depends_on "kubectl"
 
   def install
-    # Debug: List all files in current directory
-    puts "Current directory: #{Dir.pwd}"
-    puts "Files in directory: #{Dir.entries('.')}"
-    puts "App files: #{Dir['*.app']}"
-    
-    # Install all contents to prefix
+    # Install all contents to prefix (Homebrew extracts into the .app directory)
     prefix.install Dir["*"]
     
-    # Create a symlink in bin for command line access
+    # Create a command line launcher script
     (bin/"k8s-file-transfer").write <<~EOS
       #!/bin/bash
-      exec "#{prefix}/Kubernetes File Transfer.app/Contents/MacOS/Kubernetes File Transfer" "$@"
+      exec "#{prefix}/Contents/MacOS/Kubernetes File Transfer" "$@"
     EOS
   end
 
@@ -39,20 +34,21 @@ class K8sFileTransfer < Formula
       2. Proper permissions to list pods and execute kubectl cp commands
 
       The application has been installed to:
-        #{prefix}/Kubernetes File Transfer.app
+        #{prefix}
 
       You can launch it with:
         k8s-file-transfer
 
       Or open it directly:
-        open "#{prefix}/Kubernetes File Transfer.app"
+        open "#{prefix}"
 
       For more information, visit: https://github.com/vishnudin/k8s-file-transfer
     EOS
   end
 
   test do
-    assert_predicate prefix/"Kubernetes File Transfer.app", :exist?
+    assert_predicate prefix/"Contents", :exist?
+    assert_predicate prefix/"Contents/MacOS/Kubernetes File Transfer", :exist?
     assert_predicate bin/"k8s-file-transfer", :exist?
   end
 end
