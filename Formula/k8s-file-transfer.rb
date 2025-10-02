@@ -17,14 +17,18 @@ class K8sFileTransfer < Formula
   depends_on "kubectl"
 
   def install
-    # Install the app bundle to prefix
-    app_bundle = Dir["*.app"].first
-    prefix.install app_bundle
+    # Debug: List all files in current directory
+    puts "Current directory: #{Dir.pwd}"
+    puts "Files in directory: #{Dir.entries('.')}"
+    puts "App files: #{Dir['*.app']}"
+    
+    # Install all contents to prefix
+    prefix.install Dir["*"]
     
     # Create a symlink in bin for command line access
     (bin/"k8s-file-transfer").write <<~EOS
       #!/bin/bash
-      exec "#{prefix}/#{app_bundle}/Contents/MacOS/Kubernetes File Transfer" "$@"
+      exec "#{prefix}/Kubernetes File Transfer.app/Contents/MacOS/Kubernetes File Transfer" "$@"
     EOS
   end
 
